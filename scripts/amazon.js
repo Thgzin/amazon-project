@@ -1,6 +1,10 @@
+import { cart } from "../data/cart.js";
+import { products } from "../data/products.js";
+
 let productsHTML = "";
 
 products.forEach((product) => {
+  const timeoutsId = {};
   productsHTML += `
     <div class="product-container">
           <div class="product-image-container">
@@ -29,7 +33,7 @@ products.forEach((product) => {
           )}</div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="select-quantity-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -45,7 +49,7 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-script-${product.id}">
             <img src="images/icons/checkmark.png" />
             Added
           </div>
@@ -59,9 +63,30 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
+const timeoutsId = {};
+
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
     const productId = button.dataset.productId;
+
+    const selectProduct = document.querySelector(
+      `.select-quantity-${productId}`
+    ).value;
+
+    const selectValue = Number(selectProduct);
+
+    const addInput = document.querySelector(`.js-added-script-${productId}`);
+
+    if (timeoutsId[productId]) {
+      clearInterval(timeoutsId[productId]);
+    }
+
+    addInput.style.opacity = 1;
+
+    timeoutsId[productId] = setTimeout(() => {
+      addInput.style.opacity = 0;
+      delete timeoutsId[productId];
+    }, 2000);
 
     let matchingItem;
 
@@ -72,11 +97,11 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     });
 
     if (matchingItem) {
-      matchingItem.quantity++;
+      matchingItem.quantity = selectValue;
     } else {
       cart.push({
         productId: productId,
-        quantity: 1,
+        quantity: selectValue,
       });
     }
     let cartQuantity = 0;
@@ -84,8 +109,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     cart.forEach((item) => {
       cartQuantity += item.quantity;
     });
-    
+
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-    
   });
 });
