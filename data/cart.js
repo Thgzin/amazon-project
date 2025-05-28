@@ -55,6 +55,10 @@ export function updateCartQuantity() {
 
   document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 
+  if (cartQuantity >= 1000) {
+    return;
+  }
+
   saveToStorage();
 }
 
@@ -66,10 +70,7 @@ export function updateCheckoutQuantity() {
   });
 
   if (cartQuantity < 0) {
-    document.querySelector(".checkout-quantity").innerHTML = cartQuantity = 0;
-  }
-
-  if (!cartQuantity) {
+    document.querySelector(".checkout-quantity").innerHTML = cartQuantity + "";
     return;
   } else {
     document.querySelector(".checkout-quantity").innerHTML =
@@ -99,4 +100,3 @@ export function updateQuantity(productId, newQuantity) {
   matchingItem.quantity = newQuantity;
   saveToStorage();
 }
-

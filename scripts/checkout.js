@@ -107,6 +107,7 @@ document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
 updateCheckoutQuantity();
 
+// DELETE
 document.querySelectorAll(".js-delete-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productId = link.dataset.productId;
@@ -119,6 +120,7 @@ document.querySelectorAll(".js-delete-link").forEach((link) => {
   });
 });
 
+// UPDATE
 document.querySelectorAll(".js-update-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productId = link.dataset.productId;
@@ -126,9 +128,16 @@ document.querySelectorAll(".js-update-link").forEach((link) => {
       `.js-cart-item-container-${productId}`
     );
     container.classList.add("is-editing-quantity");
+
+    // Foca o input automaticamente
+    const quantityInput = document.querySelector(
+      `.js-quantity-input-${productId}`
+    );
+    quantityInput.focus();
   });
 });
 
+// SAVE
 document.querySelectorAll(".js-save-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productId = link.dataset.productId;
@@ -142,7 +151,15 @@ document.querySelectorAll(".js-save-link").forEach((link) => {
     );
 
     const newQuantity = Number(quantityInput.value);
-    if (newQuantity < 0) return;
+
+    if (
+      !Number.isInteger(newQuantity) ||
+      newQuantity < 1 ||
+      newQuantity > 999
+    ) {
+      alert("Quantity must be a whole number between 1 and 999.");
+      return;
+    }
 
     const quantityLabel = document.querySelector(
       `.js-quantity-label-${productId}`
@@ -153,5 +170,27 @@ document.querySelectorAll(".js-save-link").forEach((link) => {
     quantityLabel.innerHTML = newQuantity;
 
     updateCheckoutQuantity();
+  });
+});
+
+// ENTER para salvar
+document.querySelectorAll(".quantity-input").forEach((input) => {
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const classList = Array.from(input.classList);
+      const match = classList.find((cls) =>
+        cls.startsWith("js-quantity-input-")
+      );
+
+      if (!match) return;
+
+      const productId = match.replace("js-quantity-input-", "");
+      const saveButton = document.querySelector(
+        `.js-save-link[data-product-id="${productId}"]`
+      );
+      if (saveButton) {
+        saveButton.click(); // Simula clique no botão save
+      }
+    }
   });
 });
