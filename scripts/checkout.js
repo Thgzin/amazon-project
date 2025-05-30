@@ -5,7 +5,13 @@ import {
   updateQuantity,
 } from "../data/cart.js";
 import { products } from "../data/products.js";
-import { formatCurrency } from "./utils/money.js";
+import formatCurrency from "./utils/money.js";
+import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+
+const today = dayjs();
+const deliveryDate = today.add(7, "day");
+
+console.log(deliveryDate.format("dddd, MMMM D"));
 
 let cartSummaryHTML = "";
 
@@ -107,7 +113,6 @@ document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
 updateCheckoutQuantity();
 
-// DELETE
 document.querySelectorAll(".js-delete-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productId = link.dataset.productId;
@@ -120,7 +125,6 @@ document.querySelectorAll(".js-delete-link").forEach((link) => {
   });
 });
 
-// UPDATE
 document.querySelectorAll(".js-update-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productId = link.dataset.productId;
@@ -129,7 +133,6 @@ document.querySelectorAll(".js-update-link").forEach((link) => {
     );
     container.classList.add("is-editing-quantity");
 
-    // Foca o input automaticamente
     const quantityInput = document.querySelector(
       `.js-quantity-input-${productId}`
     );
@@ -137,7 +140,6 @@ document.querySelectorAll(".js-update-link").forEach((link) => {
   });
 });
 
-// SAVE
 document.querySelectorAll(".js-save-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productId = link.dataset.productId;
@@ -173,7 +175,6 @@ document.querySelectorAll(".js-save-link").forEach((link) => {
   });
 });
 
-// ENTER para salvar
 document.querySelectorAll(".quantity-input").forEach((input) => {
   input.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
@@ -189,7 +190,7 @@ document.querySelectorAll(".quantity-input").forEach((input) => {
         `.js-save-link[data-product-id="${productId}"]`
       );
       if (saveButton) {
-        saveButton.click(); // Simula clique no botão save
+        saveButton.click();
       }
     }
   });
