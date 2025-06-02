@@ -115,3 +115,22 @@ export function updateDeliveryOptions(productId, deliveryOptionId) {
   matchingItem.deliveryOptionId = deliveryOptionId;
   saveToStorage();
 }
+
+export function updateSummary() {
+  let cartQuantity = 0;
+
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  if (cartQuantity === 0) {
+    document.querySelector(
+      ".js-payment-summary"
+    ).innerHTML = `Items (${cartQuantity})`;
+  } else {
+    document.querySelector(
+      ".js-payment-summary"
+    ).innerHTML = `Items (${cartQuantity}):`;
+    saveToStorage();
+  }
+}

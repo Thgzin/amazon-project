@@ -1,5 +1,5 @@
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
-
+import isSatSun from "./isWeekend.js";
 /*
 function getDate() {
   const date = dayjs();
@@ -10,13 +10,8 @@ function getDate() {
   //console.log(dateAdd.format("MMMM, D"));
   //console.log(dateAdd.format("MMMM, D"));
 }
+*/
 
-
-function isWeekend(date) {
-  const dayOfWeek = date.format("dddd");
-  return dayOfWeek === "Saturday" || dayOfWeek === "Sunday";
-}
 let date = dayjs();
 date = date.add(6, "days");
-console.log(`${date.format("dddd")} | ${isWeekend(date)} `);
-*/
+console.log(`${date.format("dddd")} | ${isSatSun(date)} `);
