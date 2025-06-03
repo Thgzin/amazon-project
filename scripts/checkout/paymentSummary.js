@@ -4,6 +4,7 @@ import { formatCurrency } from "../utils/money.js";
 import { getDeliveryOptions } from "../../data/deliveryOptions.js";
 import { updateCheckoutQuantity } from "../../data/cart.js";
 import { updateSummary } from "../../data/cart.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
 export function renderPaymentSummary() {
   let productPriceCents = 0;
   let shippingPriceCents = 0;
@@ -60,7 +61,7 @@ export function renderPaymentSummary() {
     Place your order
     </button>
   `;
-  updateCheckoutQuantity();
+  renderCheckoutHeader();
   document.querySelector(".pay-summary-js").innerHTML = paymentSummary;
 
   updateSummary();

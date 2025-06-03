@@ -1,7 +1,6 @@
 import {
   cart,
   removeFromCart,
-  updateCheckoutQuantity,
   updateQuantity,
   updateDeliveryOptions,
 } from "../../data/cart.js";
@@ -13,6 +12,7 @@ import {
   getDeliveryOptions,
 } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { calculateDeliveryDate } from "../../data/deliveryOptions.js";
 
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
@@ -26,9 +26,8 @@ export function renderOrderSummary() {
 
     const deliveryOption = getDeliveryOptions(deliveryOptionId);
 
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
-    const dateString = deliveryDate.format("dddd, MMMM, D");
+    const dateString = calculateDeliveryDate(deliveryOption.id);
+
 
     cartSummaryHTML += `
     <div class="cart-item-container js-cart-item-container-${
@@ -94,7 +93,6 @@ export function renderOrderSummary() {
       removeFromCart(productId);
       renderPaymentSummary();
       container.remove();
-      updateCheckoutQuantity();
     });
   });
 
@@ -144,7 +142,6 @@ export function renderOrderSummary() {
 
       quantityLabel.innerHTML = newQuantity;
       renderPaymentSummary();
-      updateCheckoutQuantity();
     });
   });
 
@@ -212,6 +209,4 @@ export function renderOrderSummary() {
       renderPaymentSummary();
     });
   });
-
-  updateCheckoutQuantity();
 }

@@ -126,7 +126,7 @@ export function updateSummary() {
   if (cartQuantity === 0) {
     document.querySelector(
       ".js-payment-summary"
-    ).innerHTML = `Items (${cartQuantity})`;
+    ).innerHTML = `Items (${cartQuantity}):`;
   } else {
     document.querySelector(
       ".js-payment-summary"
