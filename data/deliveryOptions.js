@@ -31,7 +31,6 @@ export function getDeliveryOptions(deliveryOptionId) {
 
 export function calculateDeliveryDate(deliveryOptionId) {
   const deliveryOption = getDeliveryOptions(deliveryOptionId);
-
   let deliveryDate = dayjs();
   let addedDays = 0;
 
