@@ -1,28 +1,40 @@
-export let cart = JSON.parse(localStorage.getItem("cart"));
+export let cart;
 
-if (!cart) {
-  cart = [
-    {
-      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-      quantity: 2,
-      deliveryOptionId: "1",
-    },
-    {
-      productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-      quantity: 1,
-      deliveryOptionId: "2",
-    },
-  ];
+loadFromStorage();
+
+export function loadFromStorage() {
+  cart = JSON.parse(localStorage.getItem("cart"));
+
+  if (!cart) {
+    cart = [
+      {
+        productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+        quantity: 2,
+        deliveryOptionId: "1",
+      },
+      {
+        productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+        quantity: 1,
+        deliveryOptionId: "2",
+      },
+    ];
+  }
 }
 
-export function addToCart(productId) {
+export function addToCart(productId, quantity = null) {
   let matchingItem;
 
-  const selectProduct = document.querySelector(
-    `.select-quantity-${productId}`
-  ).value;
+  let selectValue;
 
-  const selectValue = Number(selectProduct);
+  if (quantity !== null) {
+    selectValue = quantity;
+  } else {
+    const selectProduct = document.querySelector(
+      `.select-quantity-${productId}`
+    );
+    if (!selectProduct) throw new Error("Quantidade não especificada e elemento DOM ausente");
+    selectValue = Number(selectProduct.value);
+  }
 
   cart.forEach((cartItem) => {
     if (productId === cartItem.productId) {
@@ -49,20 +61,15 @@ export function updateCartQuantity() {
     cartQuantity += cartItem.quantity;
   });
 
-  if (!cartQuantity) {
-    cartQuantity = "";
-  }
-  if (cartQuantity < 0) {
+  if (!cartQuantity || cartQuantity < 0) {
     cartQuantity = "";
   }
 
   document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 
-  if (cartQuantity >= 1000) {
-    return;
+  if (cartQuantity < 1000) {
+    saveToStorage();
   }
-
-  saveToStorage();
 }
 
 export function updateCheckoutQuantity() {
@@ -72,12 +79,12 @@ export function updateCheckoutQuantity() {
     cartQuantity += cartItem.quantity;
   });
 
+  const element = document.querySelector(".checkout-quantity");
   if (cartQuantity < 0) {
-    document.querySelector(".checkout-quantity").innerHTML = cartQuantity + "";
+    element.innerHTML = cartQuantity + "";
     return;
   } else {
-    document.querySelector(".checkout-quantity").innerHTML =
-      cartQuantity + " items";
+    element.innerHTML = cartQuantity + " items";
     saveToStorage();
   }
 }
@@ -123,14 +130,9 @@ export function updateSummary() {
     cartQuantity += cartItem.quantity;
   });
 
-  if (cartQuantity === 0) {
-    document.querySelector(
-      ".js-payment-summary"
-    ).innerHTML = `Items (${cartQuantity}):`;
-  } else {
-    document.querySelector(
-      ".js-payment-summary"
-    ).innerHTML = `Items (${cartQuantity}):`;
+  const summary = document.querySelector(".js-payment-summary");
+  summary.innerHTML = `Items (${cartQuantity}):`;
+  if (cartQuantity > 0) {
     saveToStorage();
   }
 }
