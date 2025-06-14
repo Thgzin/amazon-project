@@ -1,28 +1,36 @@
-export let cart = JSON.parse(localStorage.getItem("cart"));
+export let cart;
 
-if (!cart) {
-  cart = [
-    {
-      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-      quantity: 2,
-      deliveryOptionId: "1",
-    },
-    {
-      productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-      quantity: 1,
-      deliveryOptionId: "2",
-    },
-  ];
+loadFromStorage();
+
+export function loadFromStorage() {
+  cart = JSON.parse(localStorage.getItem("cart"));
+
+  if (!cart) {
+    cart = [
+      {
+        productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+        quantity: 2,
+        deliveryOptionId: "1",
+      },
+      {
+        productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+        quantity: 1,
+        deliveryOptionId: "2",
+      },
+    ];
+  }
 }
 
 export function addToCart(productId) {
   let matchingItem;
 
-  const selectProduct = document.querySelector(
-    `.select-quantity-${productId}`
-  ).value;
+  let selectValue = 1; // Default value for tests
+  const selectProduct = document.querySelector(`.select-quantity-${productId}`);
 
-  const selectValue = Number(selectProduct);
+  // Only try to get value if element exists (production environment)
+  if (selectProduct) {
+    selectValue = Number(selectProduct.value);
+  }
 
   cart.forEach((cartItem) => {
     if (productId === cartItem.productId) {
@@ -31,7 +39,7 @@ export function addToCart(productId) {
   });
 
   if (matchingItem) {
-    matchingItem.quantity = selectValue;
+    matchingItem.quantity += selectValue;
   } else {
     cart.push({
       productId: productId,
@@ -72,12 +80,14 @@ export function updateCheckoutQuantity() {
     cartQuantity += cartItem.quantity;
   });
 
+  const quantityElement = document.querySelector(".checkout-quantity");
+  if (!quantityElement) return;
+
   if (cartQuantity < 0) {
-    document.querySelector(".checkout-quantity").innerHTML = cartQuantity + "";
+    quantityElement.innerHTML = cartQuantity + "";
     return;
   } else {
-    document.querySelector(".checkout-quantity").innerHTML =
-      cartQuantity + " items";
+    quantityElement.innerHTML = cartQuantity + " items";
     saveToStorage();
   }
 }

@@ -1,6 +1,9 @@
 import { updateCheckoutQuantity } from "../../data/cart.js";
 
 export function renderCheckoutHeader() {
+  const headerElement = document.querySelector(".js-checkout-middle-header");
+  if (!headerElement) return;
+
   let html = "";
 
   html += `    Checkout (<a
@@ -10,6 +13,6 @@ export function renderCheckoutHeader() {
           >)
   `;
 
-  document.querySelector(".js-checkout-middle-header").innerHTML = html;
+  headerElement.innerHTML = html;
   updateCheckoutQuantity();
 }

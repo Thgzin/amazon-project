@@ -62,7 +62,11 @@ export function renderPaymentSummary() {
     </button>
   `;
   renderCheckoutHeader();
-  document.querySelector(".pay-summary-js").innerHTML = paymentSummary;
+
+  const paymentSummaryElement = document.querySelector(".pay-summary-js");
+  if (paymentSummaryElement) {
+    paymentSummaryElement.innerHTML = paymentSummary;
+  }
 
   updateSummary();
 }
