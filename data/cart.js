@@ -1,3 +1,5 @@
+import { validDeliveryOption } from "./deliveryOptions.js";
+
 export let cart;
 
 loadFromStorage();
@@ -122,6 +124,10 @@ export function updateDeliveryOptions(productId, deliveryOptionId) {
   });
 
   if (!matchingItem) {
+    return;
+  }
+
+  if (!validDeliveryOption(deliveryOptionId)) {
     return;
   }
 

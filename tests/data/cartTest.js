@@ -162,4 +162,22 @@ describe("teste suite: updateDeliveryOption function", () => {
     expect(cart[0].deliveryOptionId).toEqual("1");
     expect(localStorage.setItem).toHaveBeenCalledTimes(0);
   });
+
+  it("does nothing if the delivery option is not exist", () => {
+    spyOn(localStorage, "getItem").and.callFake(() => {
+      return JSON.stringify([
+        {
+          productId: "e4363s8ce-6aa0-4b85-b27f-e1d07eb678c6",
+          quantity: 1,
+          deliveryOptionId: "1",
+        },
+      ]);
+    });
+    loadFromStorage();
+    updateDeliveryOptions("e4363s8ce-6aa0-4b85-b27f-e1d07eb678c6", "5");
+
+    expect(cart[0].productId).toEqual("e4363s8ce-6aa0-4b85-b27f-e1d07eb678c6");
+    expect(cart[0].deliveryOptionId).toEqual("1");
+    expect(localStorage.setItem).toHaveBeenCalledTimes(0);
+  });
 });
