@@ -28,7 +28,6 @@ export function renderOrderSummary() {
 
     const dateString = calculateDeliveryDate(deliveryOption.id);
 
-
     cartSummaryHTML += `
     <div class="cart-item-container js-cart-item-container-${
       matchingProduct.id
@@ -42,12 +41,12 @@ export function renderOrderSummary() {
             />
   
             <div class="cart-item-details">
-            <div class="product-name">
+            <div class="product-name js-product-name-${matchingProduct.id}">
                 ${matchingProduct.name}
             </div>
-            <div class="product-price">${formatCurrency(
-              matchingProduct.priceCents
-            )}</div>
+            <div class="product-price js-product-price-${
+              matchingProduct.id
+            }">$${formatCurrency(matchingProduct.priceCents)}</div>
             <div class="product-quantity">
                 <span> Quantity: <span class="quantity-label js-quantity-label-${
                   matchingProduct.id

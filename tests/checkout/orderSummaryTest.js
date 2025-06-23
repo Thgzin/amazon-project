@@ -74,4 +74,32 @@ describe("test suite: renderOrderSummary", () => {
     expect(cart.length).toEqual(1);
     expect(cart[0].productId).toEqual(productId2);
   });
+
+  it("get the name of the product", () => {
+    const productName1 = document.querySelector(
+      `.js-product-name-${productId1}`
+    ).innerText;
+
+    const productName2 = document.querySelector(
+      `.js-product-name-${productId2}`
+    ).innerText;
+
+    expect(productName1).toEqual(
+      "Black and Gray Athletic Cotton Socks - 6 Pairs"
+    );
+
+    expect(productName2).toEqual("Intermediate Size Basketball");
+  });
+
+  it("get the price of the product", () => {
+    let productPrice = document.querySelector(
+      `.js-product-price-${productId1}`
+    ).innerText;
+    expect(productPrice).toEqual("$10.90");
+
+    productPrice = document.querySelector(
+      `.js-product-price-${productId2}`
+    ).innerText;
+    expect(productPrice).toEqual("$20.95");
+  });
 });
