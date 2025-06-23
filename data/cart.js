@@ -32,7 +32,8 @@ export function addToCart(productId, quantity = null) {
     const selectProduct = document.querySelector(
       `.select-quantity-${productId}`
     );
-    if (!selectProduct) throw new Error("Quantidade não especificada e elemento DOM ausente");
+    if (!selectProduct)
+      throw new Error("Quantidade não especificada e elemento DOM ausente");
     selectValue = Number(selectProduct.value);
   }
 
@@ -119,6 +120,11 @@ export function updateDeliveryOptions(productId, deliveryOptionId) {
       matchingItem = cartItem;
     }
   });
+
+  if (!matchingItem) {
+    return;
+  }
+
   matchingItem.deliveryOptionId = deliveryOptionId;
   saveToStorage();
 }
