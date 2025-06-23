@@ -102,4 +102,24 @@ describe("test suite: renderOrderSummary", () => {
     ).innerText;
     expect(productPrice).toEqual("$20.95");
   });
+
+  it("updating the delivery option", () => {
+    document.querySelector(`.js-delivery-option-${productId1}-3`).click();
+    expect(
+      document.querySelector(`.js-delivery-option-input-${productId1}-3`)
+        .checked
+    ).toEqual(true);
+    expect(cart.length).toEqual(2);
+    expect(cart[0]).toEqual({
+      productId: productId1,
+      quantity: 2,
+      deliveryOptionId: "3",
+    });
+    expect(document.querySelector(".js-shipping-price").innerText).toEqual(
+      "$14.98"
+    );
+    expect(document.querySelector(".js-total-price").innerText).toEqual(
+      "$63.50"
+    );
+  });
 });
