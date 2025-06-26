@@ -52,32 +52,23 @@ class Clothing extends Product {
   }
 }
 
-/*
-const date = new Date();
-console.log(date);
+class Appilance extends Product {
+  instructionLink;
+  warrantyLink;
 
-console.log(date.toLocaleTimeString());
-
-const obj2 = {
-  a: 2,
-  b: this.a,
-};
-
-
-function logThis() {
-  console.log(this);
+  constructor(productDetails) {
+    super(productDetails);
+    this.instructionLink = productDetails.instructionLink;
+    this.warrantyLink = productDetails.warrantyLink;
+  }
+  extraInfoHTML() {
+    return `
+    <a href="${this.instructionLink}" target="_blank">Instruction Link</a>
+     <a href="${this.warrantyLink}" target="_blank">Warranty Link</a>
+  `;
+  }
 }
 
-logThis.call("hello");
-
-const obj3 = {
-  method: () => {
-    console.log(this);
-  },
-};
-obj3.method();
-
-*/
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -124,6 +115,10 @@ export const products = [
     },
     priceCents: 1899,
     keywords: ["toaster", "kitchen", "appliances"],
+    type: "instructionLink",
+    type: "warrantyLink",
+    instructionLink: "images/appliance-instructions.png",
+    warrantyLink: "images/appliance-warranty.png",
   },
   {
     id: "3ebe75dc-64d2-4137-8860-1f5a963e534b",
@@ -258,6 +253,10 @@ export const products = [
     },
     priceCents: 3074,
     keywords: ["water boiler", "appliances", "kitchen"],
+    type: "instructionLink",
+    type: "warrantyLink",
+    instructionLink: "images/appliance-instructions.png",
+    warrantyLink: "images/appliance-warranty.png",
   },
   {
     id: "6b07d4e7-f540-454e-8a1e-363f25dbae7d",
@@ -471,6 +470,10 @@ export const products = [
     },
     priceCents: 2250,
     keywords: ["coffeemakers", "kitchen", "appliances"],
+    type: "instructionLink",
+    type: "warrantyLink",
+    instructionLink: "images/appliance-instructions.png",
+    warrantyLink: "images/appliance-warranty.png",
   },
   {
     id: "02e3a47e-dd68-467e-9f71-8bf6f723fdae",
@@ -515,6 +518,10 @@ export const products = [
     },
     priceCents: 10747,
     keywords: ["food blenders", "kitchen", "appliances"],
+    type: "instructionLink",
+    type: "warrantyLink",
+    instructionLink: "images/appliance-instructions.png",
+    warrantyLink: "images/appliance-warranty.png",
   },
   {
     id: "36c64692-677f-4f58-b5ec-0dc2cf109e27",
@@ -550,8 +557,43 @@ export const products = [
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
 ].map((productDetails) => {
+  if (
+    productDetails.type === "instructionLink" ||
+    productDetails.type === "warrantyLink"
+  ) {
+    return new Appilance(productDetails);
+  }
+
   if (productDetails.type === "clothing") {
     return new Clothing(productDetails);
   }
+
   return new Product(productDetails);
 });
+
+/*
+const date = new Date();
+console.log(date);
+
+console.log(date.toLocaleTimeString());
+
+const obj2 = {
+  a: 2,
+  b: this.a,
+};
+
+
+function logThis() {
+  console.log(this);
+}
+
+logThis.call("hello");
+
+const obj3 = {
+  method: () => {
+    console.log(this);
+  },
+};
+obj3.method();
+
+*/
