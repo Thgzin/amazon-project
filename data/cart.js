@@ -171,6 +171,7 @@ export async function loadCartFetch() {
     const data = await res.text();
     console.log(data);
     return data;
+    
   } catch (error) {
     console.error(error);
   }

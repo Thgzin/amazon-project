@@ -7,7 +7,9 @@ import { loadProductsFetch, loadProducts } from "../data/products.js";
 //import "../data/car.js";
 import { loadCartFetch } from "../data/cart.js";
 
+/*
 async function loadPage() {
+  
   try {
     //throw "error1";
     await loadProductsFetch();
@@ -21,6 +23,16 @@ async function loadPage() {
   renderPaymentSummary();
 }
 
+loadPage();
+*/
+
+async function loadPage() {
+  await Promise.all([loadProductsFetch(), loadCartFetch()]);
+
+  renderCheckoutHeader();
+  renderOrderSummary();
+  renderPaymentSummary();
+}
 loadPage();
 
 /*
