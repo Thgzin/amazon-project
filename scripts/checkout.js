@@ -5,19 +5,13 @@ import { loadProductsFetch, loadProducts } from "../data/products.js";
 //import "../data/cart-class.js";
 //import "../data/backend-pratice.js";
 //import "../data/car.js";
-import { loadCart } from "../data/cart.js";
+import { loadCartFetch } from "../data/cart.js";
 
 async function loadPage() {
   try {
     //throw "error1";
     await loadProductsFetch();
-
-    await new Promise((resolve, reject) => {
-      loadCart(() => {
-        //reject("error2");
-        resolve();
-      });
-    });
+    await loadCartFetch();
   } catch (error) {
     console.log("Unexpected Error. Please try again later.");
   }

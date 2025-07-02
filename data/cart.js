@@ -149,18 +149,29 @@ export function updateSummary() {
   }
 }
 
-
-
-
 export function loadCart(fun) {
   const xhr = new XMLHttpRequest();
   xhr.addEventListener("load", () => {
     console.log(xhr.response);
     fun();
-   });
+  });
   xhr.open("GET", "https://supersimplebackend.dev/cart");
-  xhr.send(); 
+  xhr.send();
 }
 
-
-
+export async function loadCartFetch() {
+  try {
+    const url = "https://supersimplebackend.dev/cart";
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.text();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
