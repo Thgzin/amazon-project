@@ -80,7 +80,7 @@ async function postError() {
       const errorMessage = await error.json();
       console.log(errorMessage);
     } else {
-      console.log("Network error. Please try again later.");
+      console.log("Network error. Please try again later...");
     }
   }
 }
